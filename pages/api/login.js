@@ -22,7 +22,6 @@ export default async function handler(req, res) {
             data: user,
         });
     } catch (err) {
-        console.log(err);
         res.status(500).json({ error: true, message: "Сервер ачааллах боломжгүй байна" });
     }
 }

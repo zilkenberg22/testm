@@ -1,9 +1,9 @@
 import React, { useContext } from "react";
-import Link from "next/link";
 import axios from "axios";
 import { useRouter } from "next/router";
-import { showMessage } from "../tools/message";
+import { showMessage } from "./message";
 import { Ctx } from "../context/Context";
+import Link from "next/link";
 
 export default function Navbar({ children }) {
     const router = useRouter();
@@ -40,24 +40,53 @@ export default function Navbar({ children }) {
 
     return (
         <>
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "10px 20px" }}>
-                <h1>Next JS Security Practices</h1>
-                <div style={{ display: "flex", gap: 20 }}>
-                    <Link href="/">Home</Link>
-                    {ctxData.isAdmin && ctxData.isLogged && <Link href="/admin/dashboard">Dashboard</Link>}
-                    {ctxData.isLogged ? (
-                        <>
-                            <Link href="/profile">Profile</Link>
-                            <div onClick={() => logout()}>Logout</div>
-                        </>
-                    ) : (
-                        <>
-                            <Link href="/login">Login</Link>
-                            <Link href="/signup">Signup</Link>
-                        </>
-                    )}
+            <nav className="flex items-center justify-between flex-wrap bg-indigo-500 p-6">
+                <div className="flex items-center flex-shrink-0 text-white mr-6">
+                    <Link href="/">
+                        <p className="font-medium text-xl">Next JS Security Practices</p>
+                    </Link>
                 </div>
-            </div>
+                <div className={`w-full block flex-grow lg:flex lg:items-center lg:w-auto `}>
+                    <div className="text-sm lg:flex-grow">
+                        <Link href="/">
+                            <p className="block mt-4 text-xl lg:inline-block lg:mt-0 text-indigo-200 hover:text-white mr-4">Home</p>
+                        </Link>
+                        {ctxData.isAdmin && ctxData.isLogged && (
+                            <Link href="/admin/dashboard">
+                                <p className="block mt-4 text-xl lg:inline-block lg:mt-0 text-indigo-200 hover:text-white mr-4">Dashboard</p>
+                            </Link>
+                        )}
+                        {ctxData.isLogged && (
+                            <Link href="/profile">
+                                <p className="block mt-4 text-xl lg:inline-block lg:mt-0 text-indigo-200 hover:text-white mr-4">Profile</p>
+                            </Link>
+                        )}
+                    </div>
+                    <div>
+                        {!ctxData.isLogged && (
+                            <>
+                                <Link href="/login">
+                                    <p className="inline-block text-sm px-4 py-2 mr-4 leading-none border rounded text-white border-white hover:border-transparent hover:text-indigo-500 hover:bg-white mt-4 lg:mt-0">
+                                        Login
+                                    </p>
+                                </Link>
+                                <Link href="/signup">
+                                    <p className="inline-block text-sm px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-indigo-500 hover:bg-white mt-4">
+                                        Register
+                                    </p>
+                                </Link>
+                            </>
+                        )}
+                        {ctxData.isLogged && (
+                            <Link href="#" onClick={() => logout()}>
+                                <p className="inline-block text-sm px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-indigo-500 hover:bg-white mt-4 lg:mt-0">
+                                    Logout
+                                </p>
+                            </Link>
+                        )}
+                    </div>
+                </div>
+            </nav>
             {children}
         </>
     );

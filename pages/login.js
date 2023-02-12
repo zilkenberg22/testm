@@ -2,7 +2,7 @@ import React, { useState, useContext } from "react";
 import axios from "axios";
 import { useRouter } from "next/router";
 import { loginValidate } from "../tools/validate";
-import { showMessage } from "../tools/message";
+import { showMessage } from "../components/message";
 import { Ctx } from "../context/Context";
 
 export default function Login() {
@@ -15,6 +15,7 @@ export default function Login() {
     });
 
     function handleChange(e) {
+        console.log(e.target.name, e.target.value);
         setForm({ ...form, [e.target.name]: e.target.value });
     }
 
@@ -61,17 +62,44 @@ export default function Login() {
     }
 
     return (
-        <div>
-            <form onSubmit={handleSubmit}>
-                <label htmlFor="email">Email</label>
-                <input type="email" maxLength="50" name="email" value={form.email} onChange={handleChange} required />
-
-                <label htmlFor="password">Password</label>
-                <input type="password" maxLength="30" minLength="8" name="password" value={form.password} onChange={handleChange} required />
-
-                <button type="submit" className="btn">
-                    Submit
-                </button>
+        <div className="flex items-center justify-center h-full">
+            <form onSubmit={handleSubmit} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+                <div className="mb-4">
+                    <label className="block text-gray-700 font-medium mb-2" htmlFor="email">
+                        Email
+                    </label>
+                    <input
+                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        id="email"
+                        type="email"
+                        name="email"
+                        value={form.email}
+                        onChange={handleChange}
+                        required
+                    />
+                </div>
+                <div className="mb-6">
+                    <label className="block text-gray-700 font-medium mb-2" htmlFor="password">
+                        Password
+                    </label>
+                    <input
+                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
+                        id="password"
+                        type="password"
+                        name="password"
+                        value={form.password}
+                        onChange={handleChange}
+                        required
+                    />
+                </div>
+                <div className="flex items-center justify-between">
+                    <button
+                        className="bg-indigo-500 hover:bg-indigo-700 text-white font-medium py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                        type="submit"
+                    >
+                        Sign In
+                    </button>
+                </div>
             </form>
         </div>
     );
